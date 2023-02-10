@@ -47,8 +47,21 @@ def balance_teams():
     return panthers, bandits, warriors
 
 
+"""
+Console readability matters
+When the menu or stats display to the console, it should display in a nice readable format. Use extra spaces or line breaks ('\n') to break up lines if needed. For example, '\nThis will start on a newline.'
+
+Displaying the stats
+When displaying the selected teams' stats to the screen you will want to include:
+
+Team's name as a string
+Total players on that team as an integer
+The player names as strings separated by commas
+NOTE: When displaying the player names it should not just display the List representation object. It should display them as if they are one large comma separated string so the user cannot see any hints at what data type players are held inside.
+"""
+
 def main():
-    balance_teams()
+    (panthers, bandits, warriors) = balance_teams()
 
 
 if __name__ == "__main__":
