@@ -24,8 +24,31 @@ def clean_data(data):
     return cleaned_data
 
 
+def balance_teams():
+    cleaned_data = clean_data(PLAYERS)
+    # Balance the players across the three teams: Panthers, Bandits and Warriors
+    num_players_team = int(len(PLAYERS) / len(TEAMS))
+    panthers = cleaned_data[:num_players_team]
+    bandits = cleaned_data[num_players_team: num_players_team * 2]
+    warriors = cleaned_data[num_players_team * 2:]
+    # Make sure the teams have the same number of total players on them when function has finished
+    if len(panthers) != len(bandits) != len(warriors):
+        print(f"""
+            Oops...the teams are not balanced
+            Panthers: {len(panthers)} players
+            Bandits: {len(bandits)} players
+            Warriors: {len(warriors)} players
+            """)
+        return
+    # Make sure the teams are unique
+    if panthers in bandits in warriors:
+        print("Oops...The teams have overlapping players")
+        return
+    return panthers, bandits, warriors
+
+
 def main():
-    clean_data(PLAYERS)
+    balance_teams()
 
 
 if __name__ == "__main__":
