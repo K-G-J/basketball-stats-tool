@@ -42,6 +42,7 @@ def show_menu():
                 f"\n❗️ Please select either 1 or 2 from the options\n({err})\n")
             continue
         if choice != 1 and choice != 2:
+            # Handle invalid input
             print(
                 f"\n❗️ Please select either 1 or 2 from the options\n")
         return choice
@@ -73,11 +74,13 @@ def balance_teams():
     cleaned_data = clean_data(PLAYERS)
     # Randomize the players distributed to each team
     random.shuffle(cleaned_data)
+
     # Balance the players across the three teams: Panthers, Bandits and Warriors
     num_players_team = int(len(PLAYERS) / len(TEAMS))
     panthers = cleaned_data[:num_players_team]
     bandits = cleaned_data[num_players_team: num_players_team * 2]
     warriors = cleaned_data[num_players_team * 2:]
+
     # Make sure the teams have the same number of total players on them when function has finished
     if len(panthers) != len(bandits) != len(warriors):
         print(f"""
@@ -106,6 +109,7 @@ def display_stats(team_name, team):
     # Display team name
     heading = f"🏀 Team: {team_name} Stats 🏀"
     print(f"\n{heading}\n{'-' * (len(heading) + 2)}\n")
+
     # Get variables to calculate stats
     total_heights = 0
     experienced_players = []
@@ -117,6 +121,7 @@ def display_stats(team_name, team):
         total_heights += player['height']
         player_names.append(player['name'])
         gaurdian_names.append(player['guardians'])
+
     # Format and display stats
     print(f"""
         Total Players: {len(team)}
