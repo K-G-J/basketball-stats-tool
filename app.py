@@ -56,12 +56,18 @@ def clean_data(data):
         # Save cleaned player data to a new collection
         cleaned_data.append(player)
 
+        assert cleaned_data != PLAYERS, "❗️ Original player data was changed"
+
     # Return new collection of cleaned player data
     return cleaned_data, experienced_list, inexperienced_list
 
 
 def balance_teams():
-    (cleaned_data, experienced_list, inexperienced_list) = clean_data(PLAYERS)
+    # Clean the data and get player lists
+    try:
+        (cleaned_data, experienced_list, inexperienced_list) = clean_data(PLAYERS)
+    except AssertionError as err:
+        print(f"\n{err}\n")
     # Check equality
     if not len(experienced_list) + len(inexperienced_list) == len(cleaned_data):
         raise ValueError("❗️ The teams cannot be balanced\n")
@@ -156,6 +162,7 @@ def main():
 
     print("\n 🏀 BASKETBALL TEAM STATS TOOL 🏀")
 
+    # Clean the data and balance the teams
     try:
         (team_1, team_2, team_3) = balance_teams()
     except AssertionError as err:
