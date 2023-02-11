@@ -5,6 +5,31 @@ import keyboard
 
 print("\n 🏀 BASKETBALL TEAM STATS TOOL 🏀")
 
+"""
+Extra Credit
+To get an "exceeds" rating, complete all of the steps below:
+
+1.  Cleaning guardian field
+    When cleaning the data, clean the guardian field as well before adding it into your newly created collection, split up the guardian string into a List.
+
+    NOTE: There can be more than one guardian, indicated by the " and " between their names.
+
+2.  Additional balancing to the team
+    Additionally, balance the teams so that each team has the same number of experienced vs. inexperienced players.
+
+    If this is done correctly each team stats should display the same number count for experienced total and inexperienced total as well as the same total number of players on the team.
+
+3.  Include additional stats for a given displayed team:
+    number of inexperienced players on that team
+    number of experienced players on that team
+    the average height of the team
+    the guardians of all the players on that team (as a comma-separated string)
+    HINT: You can calculate the average height for a given team by keeping a running sum total of each players height on the team and dividing that total by the total number of players on that team.
+
+4.  Quit Menu Option
+    The user should be re-prompted with the main menu until they decide to "Quit the program".
+"""
+
 
 def show_menu():
     print("\n ---- MENU ---- \n")
