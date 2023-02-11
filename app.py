@@ -64,7 +64,7 @@ def clean_data(data):
 def balance_teams():
     (cleaned_data, experienced_list, inexperienced_list) = clean_data(PLAYERS)
     # Check equality
-    if len(experienced_list) + len(inexperienced_list) != len(cleaned_data):
+    if not len(experienced_list) + len(inexperienced_list) == len(cleaned_data):
         raise ValueError("❗️ The teams cannot be balanced\n")
     # Randomize the players distributed to each team
     random.shuffle(experienced_list)
@@ -74,7 +74,7 @@ def balance_teams():
     num_players_team = int(len(PLAYERS) / len(TEAMS))
     num_experienced_players = int(len(experienced_list) / len(TEAMS))
     num_inexperienced_players = int(len(inexperienced_list) / len(TEAMS))
-    if num_experienced_players != num_inexperienced_players:
+    if not num_experienced_players == num_inexperienced_players:
         raise ValueError(f"""
             Oops 😕 ... there are unequal experienced and inexperienced players
             {num_experienced_players} experienced players
@@ -82,7 +82,7 @@ def balance_teams():
             """)
 
     # Balance the players across the three teams
-    # Each team has the same number of experienced and inexperienced players.
+    # Each team has the same number of experienced and inexperienced players
     team_1 = experienced_list[:num_experienced_players] + \
         inexperienced_list[:num_inexperienced_players]
     team_2 = experienced_list[num_experienced_players: num_experienced_players * 2] + \
