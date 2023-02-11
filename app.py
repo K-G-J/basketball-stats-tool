@@ -33,7 +33,7 @@ def clean_data(data):
     experienced_list = []
     inexperienced_list = []
     # Read player data and deep copy to not change the original
-    # A deep copy creates a new object and recursively adds the copies of nested objects present in the original elements.
+    # A deep copy creates a new object and recursively adds the copies of nested objects present in the original elements (reference: https://docs.python.org/3/library/copy.html).
     for player in copy.deepcopy(data):
         (height,) = tuple(player['height'].split()[:-1])
         # Save height as an integer
@@ -143,11 +143,12 @@ def display_stats(team_name, team):
         Average Height: {round(total_heights / len(team), 2)}
         
         Players on Team: 
-        {', '.join(player_names)}
+        {', '.join(player_names[:int(len(player_names) / 2)])}
+        {', '.join(player_names[int(len(player_names) / 2):])}
         
         Gaurdians:
-        {', '.join(gaurdian_names)}
-        
+        {', '.join(gaurdian_names[:int(len(gaurdian_names) / 2)])}
+        {', '.join(gaurdian_names[int(len(gaurdian_names) / 2):])}
         """)
 
 
