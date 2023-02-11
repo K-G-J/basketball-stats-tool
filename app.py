@@ -1,7 +1,6 @@
 from constants import TEAMS, PLAYERS
 import copy
 import random
-import keyboard
 
 print("\n 🏀 BASKETBALL TEAM STATS TOOL 🏀")
 
