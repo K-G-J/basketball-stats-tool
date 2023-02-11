@@ -1,7 +1,6 @@
 from constants import TEAMS, PLAYERS
 import copy
 import random
-import keyboard
 
 
 # Assign team name constants
@@ -47,12 +46,12 @@ def clean_data(data):
         else:
             player['experience'] = False
             inexperienced_list.append(player)
-        """
-        TODO: Cleaning guardian field
-        When cleaning the data, clean the guardian field as well before adding it into your newly created collection, split up the guardian string into a List.
 
-        NOTE: There can be more than one guardian, indicated by the " and " between their names.
-        """
+        # Split up the guardian string into a List
+        if "and" in player['guardians']:
+            player['guardians'] = player['guardians'].split(' and ')
+        else:
+            player['guardians'] = [player['guardians']]
 
         # Save cleaned player data to a new collection
         cleaned_data.append(player)
@@ -107,11 +106,16 @@ def balance_teams():
 
 
 def pick_team():
-    while (team_choice := int(input(
-            f"\n Please enter a team option:\n 1) {TEAM_1}\n 2) {TEAM_2}\n 3) {TEAM_3}\n"))) != 1 and team_choice != 2 and team_choice != 3:
-        # Handle invalid input
-        print('\n❗️ Please enter a team option of 1, 2, or 3')
-    return team_choice
+    while True:
+        try:
+            while (team_choice := int(input(
+                    f"\n Please enter a team option:\n 1) {TEAM_1}\n 2) {TEAM_2}\n 3) {TEAM_3}\n"))) != 1 and team_choice != 2 and team_choice != 3:
+                # Handle invalid input
+                print('\n❗️ Please enter a team option of 1, 2, or 3')
+        except ValueError as err:
+            print(f'\n❗️ Please enter a team option of 1, 2, or 3\n({err})')
+            continue
+        return team_choice
 
 
 def display_stats(team_name, team):
@@ -129,17 +133,9 @@ def display_stats(team_name, team):
             experienced_players.append(player)
         total_heights += player['height']
         player_names.append(player['name'])
-        gaurdian_names.append(player['guardians'])
+        gaurdian_names.extend(player['guardians'])
 
     # Format and display stats
-    """
-    TODO: Include additional stats for a given displayed team:
-    number of inexperienced players on that team
-    number of experienced players on that team
-    the average height of the team
-    the guardians of all the players on that team (as a comma-separated string)
-    HINT: You can calculate the average height for a given team by keeping a running sum total of each players height on the team and dividing that total by the total number of players on that team.
-    """
     print(f"""
         Total Players: {len(team)}
         Total Experienced: {len(experienced_players)}
@@ -168,10 +164,6 @@ def main():
     except:
         print("\n Ooops 😕 ... something went wrong, please try again")
 
-    """
-    TODO: Quit Menu Option
-    The user should be re-prompted with the main menu until they decide to "Quit the program".
-    """
     while (choice := show_menu()) != 2:
         # Handle display stats
         if choice == 1:
@@ -183,17 +175,11 @@ def main():
             else:
                 display_stats(TEAM_3, team_3)
 
-            # TODO: fix to use read_key
             while input("Press ENTER to continue...") != "":
+                # Prompt user with the main menu until they decide to "Quit" the program
                 continue
-            # while True:
-            #     input("Press ENTER to continue...")
-            #     if keyboard.read_key() != "enter":
-            #         continue
-            #     else:
-            #         break
     else:
-        # Handle quit
+        # Handle quit (choice == 2)
         print("\nThank you for using the basketball stats tool! 👋\n")
         return
 
