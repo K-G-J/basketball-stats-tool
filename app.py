@@ -75,12 +75,11 @@ def balance_teams():
     num_experienced_players = int(len(experienced_list) / len(TEAMS))
     num_inexperienced_players = int(len(inexperienced_list) / len(TEAMS))
     if num_experienced_players != num_inexperienced_players:
-        print(f"""
+        raise ValueError(f"""
             Oops 😕 ... there are unequal experienced and inexperienced players
             {num_experienced_players} experienced players
             {num_inexperienced_players} inexperienced players
             """)
-        return
 
     # Balance the players across the three teams
     # Each team has the same number of experienced and inexperienced players.
@@ -93,13 +92,12 @@ def balance_teams():
 
     # Make sure the teams have the same number of total players on them when function has finished
     if not len(team_1) == len(team_2) == len(team_3) == num_players_team:
-        print(f"""
+        raise ValueError(f"""
             Oops 😕 ... the teams are not balanced
             {TEAM_1}: {len(team_1)} players
             {TEAM_2}: {len(team_2)} players
             {TEAM_3}: {len(team_3)} players
             """)
-        return
 
     # Make sure the teams are unique
     assert [i for i in team_1 if i not in team_2 if i not in team_3] != [
@@ -164,6 +162,8 @@ def main():
     try:
         (team_1, team_2, team_3) = balance_teams()
     except AssertionError as err:
+        print(f"\n{err}\n")
+    except ValueError as err:
         print(f"\n{err}\n")
     except:
         print("\n Ooops 😕 ... something went wrong, please try again")
