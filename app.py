@@ -1,5 +1,16 @@
 from constants import TEAMS, PLAYERS
 import copy
+import random
+import keyboard
+
+print("\n 🏀 BASKETBALL TEAM STATS TOOL 🏀")
+
+
+def show_menu():
+    print("\n ---- MENU---- \n")
+    print("Here are your choices: \n 1) Display Team Stats\n 2) Quit\n")
+    choice = int(input("Please enter an option:  "))
+    return choice
 
 
 def clean_data(data):
@@ -26,6 +37,8 @@ def clean_data(data):
 
 def balance_teams():
     cleaned_data = clean_data(PLAYERS)
+    # Randomize the players distributed to each team
+    random.shuffle(cleaned_data)
     # Balance the players across the three teams: Panthers, Bandits and Warriors
     num_players_team = int(len(PLAYERS) / len(TEAMS))
     panthers = cleaned_data[:num_players_team]
@@ -34,34 +47,92 @@ def balance_teams():
     # Make sure the teams have the same number of total players on them when function has finished
     if len(panthers) != len(bandits) != len(warriors):
         print(f"""
-            Oops...the teams are not balanced
+            Oops 😕 ... the teams are not balanced
             Panthers: {len(panthers)} players
             Bandits: {len(bandits)} players
             Warriors: {len(warriors)} players
             """)
         return
     # Make sure the teams are unique
-    if panthers in bandits in warriors:
-        print("Oops...The teams have overlapping players")
-        return
+    assert [i for i in panthers if i not in bandits if i not in warriors] != [
+    ], "Oops 😕 ... The teams have overlapping players"
+
     return panthers, bandits, warriors
 
 
-"""
-Console readability matters
-When the menu or stats display to the console, it should display in a nice readable format. Use extra spaces or line breaks ('\n') to break up lines if needed. For example, '\nThis will start on a newline.'
+def pick_team():
+    while (team_choice := int(input(
+            "\n Please enter a team option:\n 1) Panthers\n 2) Bandits\n 3) Warriors\n"))) != 1 and team_choice != 2 and team_choice != 3:
+        # Handle invalid input
+        print('\n❗️ Please enter a team option of "1", "2", or "3"')
+    return team_choice
 
-Displaying the stats
-When displaying the selected teams' stats to the screen you will want to include:
 
-Team's name as a string
-Total players on that team as an integer
-The player names as strings separated by commas
-NOTE: When displaying the player names it should not just display the List representation object. It should display them as if they are one large comma separated string so the user cannot see any hints at what data type players are held inside.
-"""
+def display_stats(team_name, team):
+    # Display team name
+    heading = f"🏀 Team: {team_name} Stats 🏀"
+    print(f"\n{heading}\n{'-' * (len(heading) + 2)}\n")
+    # Get variables to calculate stats
+    total_heights = 0
+    experienced_players = []
+    player_names = []
+    gaurdian_names = []
+    for player in team:
+        if player['experience'] == True:
+            experienced_players.append(player)
+        total_heights += player['height']
+        player_names.append(player['name'])
+        gaurdian_names.append(player['guardians'])
+    # Format and display stats
+    print(f"""
+        Total Players: {len(team)}
+        Total Experienced: {len(experienced_players)}
+        Total Inexperienced: {len(team) - len(experienced_players)}
+        Average Height: {round(total_heights / len(team), 2)}
+        
+        Players on Team: 
+        {', '.join(player_names)}
+        
+        Gaurdians:
+        {', '.join(gaurdian_names)}
+        
+        """)
+
 
 def main():
-    (panthers, bandits, warriors) = balance_teams()
+    try:
+        (panthers, bandits, warriors) = balance_teams()
+    except AssertionError as err:
+        print(f"\n{err}\n")
+    except:
+        print("\n Ooops 😕 ... something went wrong, please try again")
+
+    while (choice := show_menu()) != 2:
+        # Handle display stats
+        if choice == 1:
+            team = pick_team()
+            # 1 = Panthers      2 = Bandits     3 = Warriors
+            if team == 1:
+                display_stats("Panthers", panthers)
+            elif team == 2:
+                display_stats("Bandits", bandits)
+            else:
+                display_stats("Warriors", warriors)
+
+            # TODO: fix logic in loop to break out when 'enter' is pressed
+            while True:
+                input("Press ENTER to continue...")
+                if keyboard.read_key != "enter":
+                    continue
+                else:
+                    break
+        else:
+            # Handle invalid input
+            print('\n❗️ Please select either "1" or "2" from the options')
+    else:
+        # Handle quit
+        print("Thank you for using the basketball stats tool! 👋")
+        return
 
 
 if __name__ == "__main__":
