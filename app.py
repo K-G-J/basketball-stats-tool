@@ -7,7 +7,7 @@ print("\n 🏀 BASKETBALL TEAM STATS TOOL 🏀")
 
 
 def show_menu():
-    print("\n ---- MENU---- \n")
+    print("\n ---- MENU ---- \n")
     print("Here are your choices: \n 1) Display Team Stats\n 2) Quit\n")
     choice = int(input("Please enter an option:  "))
     return choice
@@ -15,7 +15,7 @@ def show_menu():
 
 def clean_data(data):
     cleaned_data = []
-    # Read player data and copy to not change the original
+    # Read player data and deep copy to not change the original
     # A deep copy creates a new object and recursively adds the copies of nested objects present in the original elements.
     for player in copy.deepcopy(data):
         (height,) = tuple(player['height'].split()[:-1])
@@ -64,7 +64,7 @@ def pick_team():
     while (team_choice := int(input(
             "\n Please enter a team option:\n 1) Panthers\n 2) Bandits\n 3) Warriors\n"))) != 1 and team_choice != 2 and team_choice != 3:
         # Handle invalid input
-        print('\n❗️ Please enter a team option of "1", "2", or "3"')
+        print('\n❗️ Please enter a team option of 1, 2, or 3')
     return team_choice
 
 
@@ -119,19 +119,14 @@ def main():
             else:
                 display_stats("Warriors", warriors)
 
-            # TODO: fix logic in loop to break out when 'enter' is pressed
-            while True:
-                input("Press ENTER to continue...")
-                if keyboard.read_key != "enter":
-                    continue
-                else:
-                    break
+            while input("Press ENTER to continue...") != "":
+                continue
         else:
             # Handle invalid input
-            print('\n❗️ Please select either "1" or "2" from the options')
+            print('\n❗️ Please select either 1 or 2 from the options')
     else:
         # Handle quit
-        print("Thank you for using the basketball stats tool! 👋")
+        print("\nThank you for using the basketball stats tool! 👋\n")
         return
 
 
