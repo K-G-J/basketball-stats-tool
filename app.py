@@ -31,10 +31,20 @@ To get an "exceeds" rating, complete all of the steps below:
 
 
 def show_menu():
-    print("\n ---- MENU ---- \n")
-    print("Here are your choices: \n 1) Display Team Stats\n 2) Quit\n")
-    choice = int(input("Please enter an option:  "))
-    return choice
+    while True:
+        try:
+            print(
+                "\n ---- MENU ---- \n Here are your choices: \n 1) Display Team Stats\n 2) Quit\n")
+            choice = int(input("Please enter an option:  "))
+        except ValueError as err:
+            # Handle invalid input
+            print(
+                f"\n❗️ Please select either 1 or 2 from the options\n({err})\n")
+            continue
+        if choice != 1 and choice != 2:
+            print(
+                f"\n❗️ Please select either 1 or 2 from the options\n")
+        return choice
 
 
 def clean_data(data):
@@ -145,9 +155,6 @@ def main():
 
             while input("Press ENTER to continue...") != "":
                 continue
-        else:
-            # Handle invalid input
-            print('\n❗️ Please select either 1 or 2 from the options')
     else:
         # Handle quit
         print("\nThank you for using the basketball stats tool! 👋\n")
